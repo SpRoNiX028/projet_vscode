@@ -1,0 +1,105 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Segoe UI', system-ui, sans-serif; color: #f3e9d2; user-select: none; }
+#game { position: fixed; inset: 0; display: block; cursor: default; }
+
+/* ---------- Barre du haut ---------- */
+#topbar {
+  position: fixed; top: 0; left: 0; right: 0; height: 40px; display: flex; align-items: center; gap: 6px; padding: 0 10px;
+  background: linear-gradient(#4a3520, #2e2012); border-bottom: 2px solid #b08a4a; box-shadow: 0 2px 8px rgba(0,0,0,.6); z-index: 5;
+}
+#topbar .res { background: rgba(0,0,0,.35); border: 1px solid #6d5230; border-radius: 4px; padding: 3px 10px; min-width: 82px; font-weight: 600; font-size: 15px; }
+#topbar .res.full { color: #ff7a6a; border-color: #c0392b; }
+#topbar .age { margin-left: 12px; font-weight: 700; color: #ffd98a; letter-spacing: .5px; text-shadow: 0 1px 2px #000; }
+#topbar .spacer { flex: 1; }
+#topbar .time { font-family: monospace; font-size: 15px; margin-right: 8px; color: #ffe9b8; }
+#topbar button, .card button {
+  background: linear-gradient(#7a5a32, #54391c); border: 1px solid #c9a15e; color: #fbeccb; border-radius: 4px; padding: 5px 12px; cursor: pointer; font-weight: 600; font-size: 14px;
+}
+#topbar button:hover, .card button:hover { filter: brightness(1.2); }
+#idle-btn.has { background: linear-gradient(#b8741e, #7a4a10); animation: pulse 1.2s infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 10px #ffb347; } }
+
+/* ---------- Messages ---------- */
+#messages { position: fixed; top: 50px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 4px; pointer-events: none; z-index: 6; }
+.msg { background: rgba(20,14,8,.82); border: 1px solid #8a6a3a; border-radius: 4px; padding: 5px 14px; font-size: 14px; transition: opacity 1s; text-shadow: 0 1px 1px #000; }
+.msg.good { border-color: #4caf50; color: #b9f5b0; }
+.msg.warn { border-color: #e0a030; color: #ffe0a0; }
+.msg.bad { border-color: #e53935; color: #ffb3a8; font-weight: 700; }
+.msg.fade { opacity: 0; }
+
+/* ---------- Panneau du bas ---------- */
+#bottom {
+  position: fixed; left: 0; right: 0; bottom: 0; height: 196px; display: flex; gap: 8px; padding: 8px;
+  background: linear-gradient(#3e2c19, #22170c); border-top: 3px solid #b08a4a; box-shadow: 0 -3px 10px rgba(0,0,0,.6); z-index: 5;
+}
+.mini-wrap { width: 180px; height: 180px; border: 2px solid #b08a4a; background: #000; flex-shrink: 0; }
+#minimap { width: 176px; height: 176px; display: block; cursor: crosshair; }
+#info { flex: 1; min-width: 0; background: rgba(0,0,0,.3); border: 1px solid #6d5230; border-radius: 4px; padding: 10px; overflow: hidden; }
+#commands { width: 312px; flex-shrink: 0; display: grid; grid-template-columns: repeat(5, 56px); grid-auto-rows: 56px; gap: 6px; align-content: start; }
+.cmd {
+  position: relative; border: 2px solid #c9a15e; border-radius: 5px; background: linear-gradient(#6d5230, #3e2c19);
+  display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform .05s;
+}
+.cmd:hover { filter: brightness(1.25); border-color: #ffe39a; }
+.cmd:active { transform: scale(.94); }
+.cmd .ic { font-size: 28px; line-height: 1; }
+.cmd .hk { position: absolute; left: 3px; top: 1px; font-size: 10px; color: #ffe9b8; font-weight: 700; text-shadow: 0 0 2px #000; }
+.cmd .badge { position: absolute; right: 2px; bottom: 1px; font-size: 12px; font-weight: 800; color: #fff; text-shadow: 0 0 3px #000; }
+.cmd.poor { border-color: #a33; }
+.cmd.poor .ic { opacity: .75; }
+.cmd.locked { filter: grayscale(1) brightness(.6); border-color: #555; }
+
+.info-empty { color: #d9c9a8; }
+.big-title { font-size: 20px; font-weight: 700; color: #ffd98a; margin-bottom: 6px; }
+.hint { margin-top: 10px; font-size: 12px; color: #a8987a; }
+.single { display: flex; gap: 12px; }
+.portrait { width: 84px; height: 84px; border: 3px solid; border-radius: 6px; font-size: 48px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.4); flex-shrink: 0; }
+.details { flex: 1; min-width: 0; }
+.details .name { font-size: 18px; font-weight: 700; color: #ffe0a0; }
+.details .name small { font-size: 13px; font-weight: 600; margin-left: 6px; }
+.hpbar { position: relative; height: 16px; background: #400; border: 1px solid #000; border-radius: 3px; margin: 5px 0; max-width: 320px; overflow: hidden; }
+.hpbar i { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(#5fe36a, #2a9a35); }
+.hpbar span { position: relative; font-size: 11px; font-weight: 700; padding-left: 6px; text-shadow: 0 0 2px #000; }
+.stats { display: flex; gap: 12px; flex-wrap: wrap; font-size: 14px; margin: 3px 0; }
+.stat { font-size: 14px; margin-top: 3px; color: #e9dcc0; }
+.stat.small { font-size: 12px; color: #c9b995; }
+.queue { display: flex; gap: 4px; margin-top: 6px; }
+.qi { position: relative; width: 34px; height: 34px; border: 1px solid #c9a15e; border-radius: 4px; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; overflow: hidden; }
+.qi.first { width: 42px; height: 42px; border-width: 2px; }
+.qi i { position: absolute; left: 0; bottom: 0; height: 4px; background: #5ab0ff; }
+.qi:hover { border-color: #f55; }
+.multi { display: flex; flex-wrap: wrap; gap: 4px; max-height: 145px; overflow: hidden; }
+.mini-unit { position: relative; width: 36px; height: 36px; border: 1px solid #8a6a3a; border-radius: 4px; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
+.mini-unit i { position: absolute; left: 0; bottom: 0; height: 3px; }
+.mini-unit:hover { border-color: #ffe39a; }
+.multi-count { font-size: 12px; color: #c9b995; margin-top: 4px; }
+
+#tooltip { position: fixed; display: none; max-width: 300px; background: rgba(15,10,5,.95); border: 1px solid #c9a15e; border-radius: 5px; padding: 8px 10px; font-size: 13px; line-height: 1.45; z-index: 10; pointer-events: none; }
+#tooltip b { color: #ffe0a0; }
+#tooltip .cost { margin-left: 4px; white-space: nowrap; }
+#tooltip .req { color: #ff8a7a; }
+
+/* ---------- Écrans ---------- */
+.overlay { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,.65); z-index: 20; }
+.overlay.show { display: flex; }
+#start { background: radial-gradient(circle at 50% 30%, #3b5a2a, #10170a 70%); }
+.card { background: linear-gradient(#3e2c19, #22170c); border: 3px solid #b08a4a; border-radius: 10px; padding: 26px 34px; max-width: 760px; width: 92%; box-shadow: 0 10px 40px rgba(0,0,0,.8); text-align: center; max-height: 94vh; overflow: auto; }
+.card.small { max-width: 380px; display: flex; flex-direction: column; gap: 8px; }
+.card h1 { margin: 0 0 4px; font-size: 40px; color: #ffd98a; text-shadow: 0 3px 6px #000; font-family: Georgia, serif; }
+.card h2 { margin: 0 0 8px; color: #ffd98a; font-family: Georgia, serif; }
+.sub { margin: 0 0 18px; color: #d9c9a8; }
+.row { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 10px 0; }
+.diff.active { background: linear-gradient(#c9922e, #8a5a14); box-shadow: 0 0 8px #ffb347; }
+#seed { background: #1a120a; border: 1px solid #8a6a3a; color: #f3e9d2; padding: 6px 10px; border-radius: 4px; width: 160px; }
+button.big { font-size: 18px !important; padding: 10px 28px !important; margin: 12px 0; }
+.howto { text-align: left; font-size: 14px; color: #e9dcc0; border-top: 1px solid #6d5230; margin-top: 10px; }
+.howto h3 { color: #ffd98a; margin: 12px 0 4px; font-size: 16px; }
+.howto ul { margin: 0; padding-left: 20px; line-height: 1.6; }
+#help { display: none; text-align: left; font-size: 13px; color: #e9dcc0; }
+#help.open { display: block; }
+.end-title.win { color: #ffd84a; }
+.end-title.lose { color: #ff6a5a; }
+.end-reason { font-size: 17px; }
+table.stats { margin: 12px auto; border-collapse: collapse; font-size: 15px; }
+table.stats td, table.stats th { padding: 5px 16px; border-bottom: 1px solid #5a4226; }
+table.stats td:first-child { text-align: left; color: #d9c9a8; }

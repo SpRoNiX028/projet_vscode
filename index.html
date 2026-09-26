@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L'Âge des Empires — RTS en JavaScript</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <!-- Barre du haut -->
+  <div id="topbar">
+    <div class="res" title="Nourriture">🍖 <span id="r-food">0</span></div>
+    <div class="res" title="Bois">🪵 <span id="r-wood">0</span></div>
+    <div class="res" title="Or">🪙 <span id="r-gold">0</span></div>
+    <div class="res" title="Pierre">🪨 <span id="r-stone">0</span></div>
+    <div class="res pop" title="Population">👥 <span id="r-pop">0/0</span></div>
+    <div class="age" id="r-age">Âge sombre</div>
+    <div class="spacer"></div>
+    <div class="time" id="r-time">00:00</div>
+    <button id="idle-btn" title="Villageois inactifs (touche .)">💤 0</button>
+    <button id="menu-btn" title="Menu (P)">☰ Menu</button>
+  </div>
+
+  <div id="messages"></div>
+
+  <!-- Panneau du bas -->
+  <div id="bottom">
+    <div class="mini-wrap"><canvas id="minimap" width="180" height="180"></canvas></div>
+    <div id="info"></div>
+    <div id="commands"></div>
+  </div>
+  <div id="tooltip"></div>
+
+  <!-- Écran titre -->
+  <div id="start" class="overlay show">
+    <div class="card">
+      <h1>⚔️ L'Âge des Empires</h1>
+      <p class="sub">Un jeu de stratégie en temps réel inspiré d'<i>Age of Empires</i></p>
+      <div class="row">
+        <span>Difficulté :</span>
+        <button class="diff" data-d="easy">Facile</button>
+        <button class="diff active" data-d="normal">Normal</button>
+        <button class="diff" data-d="hard">Difficile</button>
+      </div>
+      <div class="row">
+        <span>Graine de carte :</span>
+        <input id="seed" placeholder="aléatoire">
+      </div>
+      <button id="start-btn" class="big">Commencer la partie</button>
+      <div class="howto">
+        <h3>Objectif</h3>
+        <p>Développez votre civilisation de l'<b>Âge sombre</b> à l'<b>Âge impérial</b> et détruisez l'ennemi (rouge) — ou construisez une <b>Merveille</b> et défendez-la 3 minutes.</p>
+        <h3>Commandes</h3>
+        <ul>
+          <li><b>Clic gauche</b> : sélectionner · <b>glisser</b> : sélection multiple · <b>double-clic</b> : tous les mêmes à l'écran</li>
+          <li><b>Clic droit</b> : déplacer, récolter, construire, attaquer · sur un bâtiment : point de ralliement</li>
+          <li><b>Flèches / bords de l'écran / clic molette</b> : déplacer la caméra · <b>molette</b> : zoom</li>
+          <li><b>Q W E R A S D T</b> : raccourcis des boutons · <b>Échap</b> : annuler · <b>Suppr</b> : supprimer</li>
+          <li><b>H</b> : hôtel de ville · <b>.</b> : villageois inactif · <b>Ctrl+1-9</b> : créer un groupe · <b>1-9</b> : le rappeler</li>
+          <li><b>Maj</b> : placer plusieurs bâtiments / former 5 unités · <b>P</b> : pause</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="loading" class="overlay"><div class="card small"><h2>Génération du monde…</h2></div></div>
+
+  <!-- Pause -->
+  <div id="pause" class="overlay">
+    <div class="card small">
+      <h2>Pause</h2>
+      <button id="p-resume" class="big">Reprendre</button>
+      <button id="p-speed">Vitesse : x1</button>
+      <button id="p-sound">Son : activé</button>
+      <button id="p-reveal">Révéler la carte : non</button>
+      <button id="p-help">Aide</button>
+      <button id="p-restart">Nouvelle partie</button>
+      <div id="help">
+        <p>🌾 <b>Économie</b> : faites récolter vos villageois. Construisez des <b>camps</b> près des ressources pour réduire les trajets et des <b>maisons</b> pour augmenter la population.</p>
+        <p>🏰 <b>Âges</b> : l'hôtel de ville permet de passer à l'âge suivant et débloque unités, bâtiments et technologies.</p>
+        <p>⚔️ <b>Combat</b> : piquiers &gt; cavalerie, tirailleurs &gt; archers, archers &gt; infanterie, béliers et mangonneaux &gt; bâtiments.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fin -->
+  <div id="end" class="overlay">
+    <div class="card">
+      <h1 class="end-title">Victoire</h1>
+      <p class="end-reason"></p>
+      <table class="stats">
+        <thead><tr><th></th><th style="color:#5b8ef0">Vous</th><th style="color:#e5584c">Ennemi</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <button id="restart-btn" class="big">Rejouer</button>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/path.js"></script>
+  <script src="js/entities.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
