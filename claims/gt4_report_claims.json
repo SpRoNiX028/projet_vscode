@@ -1,0 +1,25 @@
+{
+  "source": "Rapport d'agent analysant ~/gt4_principal.elf + ~/core.gt4 (Gran Turismo 4 PAL SCES-51719)",
+  "claims": [
+    {"kind": "file_size", "value": 273020, "on": "elf", "label": "ELF: taille 273 020 octets"},
+    {"kind": "file_sha256", "value": "a8dd85f12d34eab5eaec25c974508e0b7b1afbd5b4f76cb4caa195f74757f0f6", "on": "elf", "label": "ELF: SHA-256 annoncé"},
+    {"kind": "elf_header", "field": "machine", "value": "8", "label": "ELF: machine = EM_MIPS"},
+    {"kind": "elf_header", "field": "entry", "value": "0x01000008", "label": "ELF: point d'entree 0x01000008"},
+    {"kind": "elf_header", "field": "e_flags", "value": "0x20924001", "label": "ELF: e_flags 0x20924001"},
+    {"kind": "reginfo_gp", "value": "0x01049770", "label": "ELF: $gp = 0x01049770 (.reginfo)"},
+    {"kind": "segment", "start": "0x01000000", "end": "0x0102dc54", "perm": "r-x", "label": "ELF: segment code R-X 0x01000000-0x0102dc54"},
+    {"kind": "segment", "start": "0x0102dc80", "end": "0x010519ac", "label": "ELF: segment donnees 0x0102dc80-0x010519ac"},
+    {"kind": "insn", "addr": "0x0100020c", "mnemonic": "lw", "label": "crt0: lw $a0,0($v0) a 0x0100020c"},
+    {"kind": "insn", "addr": "0x01000210", "mnemonic": "jal", "target": "0x01000558", "label": "crt0: jal 0x01000558 (=main) a 0x01000210"},
+    {"kind": "insn", "addr": "0x01000214", "mnemonic": "addiu", "label": "crt0: addiu $a1,$v0,4 dans le delay slot"},
+    {"kind": "function_prologue", "addr": "0x01000558", "frame_size": 208, "label": "main @0x01000558: cadre de pile de 208 octets"},
+    {"kind": "string_present", "value": "PDISTD::InflateBase", "label": "rodata: 'PDISTD::InflateBase' (RTTI)"},
+    {"kind": "string_present", "value": "ImageLoader::DiskSource", "label": "rodata: 'ImageLoader::DiskSource' (RTTI)"},
+    {"kind": "string_present", "value": "MCardFileName", "label": "rodata: 'MCardFileName'"},
+    {"kind": "string_present", "value": "IOPRP300.IMG", "label": "rodata: 'IOPRP300.IMG' (module IOP)"},
+    {"kind": "string_present", "value": "sio2man", "label": "rodata: 'sio2man' (pilote IOP)"},
+    {"kind": "file_size", "value": 2021140, "on": "core", "label": "CORE: taille 2 021 140 octets"},
+    {"kind": "file_sha256", "value": "2ea1fbe2f4d0c9041a3d4659935edfbdb9f73f25de626e4ffe137524c3826b7b", "on": "core", "label": "CORE: SHA-256 annonce"},
+    {"kind": "core_header", "flags": "0x0101", "decompressed_size": 6119116, "label": "CORE: en-tete flags 0x0101 + taille declaree 0x005D5ECC (6 119 116)"}
+  ]
+}
